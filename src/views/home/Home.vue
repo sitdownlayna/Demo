@@ -3,12 +3,12 @@
     <nav-bar class="nav-bar">
       <div slot="center">购物首页</div>
     </nav-bar>
-    <scroll class="scroll">
-      <div>
+    <scroll class="scroll" ref="wrapper">
+      <div id="content">
         <home-swiper :banners="banners"></home-swiper>
         <feature-view :features="recommends"></feature-view>
         <tab-control :titles="['流行','新款','精选']" @itemCLick="tabClick"></tab-control>
-        <goods-list :goods-list="goodsList[currentType].list"></goods-list>
+        <goods-list :goods-list="goodsList[currentType].list" @getimg="getedimg"></goods-list>
       </div>
     </scroll>
   </div>
@@ -22,6 +22,8 @@ import HomeSwiper from "./childComps/HomeSwiper";
 import FeatureView from "./childComps/FeatureView";
 import GoodsList from "./childComps/GoodList";
 import { getHomeMultidata, getHomeData } from "network/home";
+import BScroll from "better-scroll";
+import {throttle} from "@/common/tool"
 export default {
   name: "Home",
   components: {
@@ -42,7 +44,7 @@ export default {
       },
       recommends: [],
       banners: [],
-      scroll: {}
+      img: []
     };
   },
   created() {
@@ -53,10 +55,23 @@ export default {
     this.getHomeProducts("pop");
     this.getHomeProducts("new");
     this.getHomeProducts("sell");
-    // console.log("created");
   },
-  mounted() {},
+  mounted() {
+    this.$nextTick(function() {
+      this.$bus.$on("getimg", img => {
+        for (let i = 0, l = img.length; i < l; i++) {
+          img[i].onload = () => {
+            this.$refs.wrapper.refresh();
+            // throttle(this.$refs.wrapper.refresh());
+          };
+        }
+      });
+    });
+  },
   methods: {
+    getedimg(img) {
+      console.log(img);
+    },
     tabClick(index) {
       switch (index) {
         case 0:

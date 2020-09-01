@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-import {throttle} from "@/common/tool"
+import BScroll from "better-scroll";
+import { throttle } from "@/common/tool";
 export default {
   name: "Scroll",
   data() {
@@ -15,19 +15,30 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(function(){
+    this.$nextTick(function() {
       this.initScroll();
-    })
+    });
   },
   methods: {
     initScroll() {
       if (!this.$refs.wrapper) return;
       this.scroll = new BScroll(this.$refs.wrapper, {
+        probeType: 3,
         scrollY: true,
-        click: true
+        click: true,
+        pullUpLoad: true
+      });
+
+      this.scroll.on("scroll", pos => {
+        this.$emit("scroll", pos);
+      });
+
+      this.scroll.on("pullingUp", () => {
+        console.log("a");
+        this.$emit("pullingUp");
       });
     },
-    refresh(){
+    refresh() {
       // throttle(this.scroll.refresh())();
       // console.log("refres");
       this.scroll.refresh();

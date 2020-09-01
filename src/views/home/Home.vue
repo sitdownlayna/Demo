@@ -3,12 +3,13 @@
     <nav-bar class="nav-bar">
       <div slot="center">购物首页</div>
     </nav-bar>
-    <scroll class="scroll" ref="wrapper">
+    <tab-control ref="tc1" class="tc" :class="{tcshow:tabcontrolshow}" :titles="['流行','新款','精选']" @itemClick="tabClick"></tab-control>
+    <scroll class="scroll" ref="wrapper" @scroll="scrollxy" @pullingUp="loadMore">
       <div id="content">
         <home-swiper :banners="banners"></home-swiper>
         <feature-view :features="recommends"></feature-view>
-        <tab-control :titles="['流行','新款','精选']" @itemCLick="tabClick"></tab-control>
-        <goods-list :goods-list="goodsList[currentType].list" @getimg="getedimg"></goods-list>
+        <tab-control ref="tc2" :titles="['流行','新款','精选']" @itemClick="tabClick"></tab-control>
+        <goods-list :goods-list="goodsList[currentType].list"></goods-list>
       </div>
     </scroll>
   </div>
@@ -44,7 +45,8 @@ export default {
       },
       recommends: [],
       banners: [],
-      img: []
+      img: [],
+      tabcontrolshow: true
     };
   },
   created() {
@@ -69,8 +71,12 @@ export default {
     });
   },
   methods: {
-    getedimg(img) {
-      console.log(img);
+    scrollxy(pos){
+      if(pos.y <= -298){
+        this.tabcontrolshow = false;
+      }else{
+        this.tabcontrolshow = true;
+      }
     },
     tabClick(index) {
       switch (index) {
@@ -84,6 +90,8 @@ export default {
           this.currentType = "sell";
           break;
       }
+      this.$refs.tc1.currentIndex = index;
+      this.$refs.tc2.currentIndex = index;
     },
     getMultidata() {
       getHomeMultidata().then(res => {
@@ -97,7 +105,10 @@ export default {
         this.goodsList[type].list.push(...goods);
         this.goodsList[type].page += 1;
       });
-    }
+    },
+     loadMore() {
+		    this.getHomeProducts(this.currentType)
+      },
   }
 };
 </script>
@@ -118,5 +129,15 @@ export default {
   left: 0;
   right: 0;
   bottom: 49px;
+}
+.tcshow{
+  display: none;
+}
+.tc{
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  z-index: 3;
 }
 </style>

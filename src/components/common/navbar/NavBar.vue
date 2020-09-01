@@ -14,10 +14,6 @@
 
 <style scoped>
   #nav-bar {
-    /* position: fixed;
-    left: 0;
-    top: 0;
-    right: 0; */
     position: relative;
     height: 44px;
     line-height: 44px;

@@ -3,7 +3,7 @@
     <nav-bar class="nav-bar">
       <div slot="center">购物首页</div>
     </nav-bar>
-    <tab-control ref="tc1" class="tc" :class="{tcshow:tabcontrolshow}" :titles="['流行','新款','精选']" @itemClick="tabClick"></tab-control>
+    <tab-control ref="tc1" class="tc" :class="{show:tabcontrolshow}" :titles="['流行','新款','精选']" @itemClick="tabClick"></tab-control>
     <scroll class="scroll" ref="wrapper" @scroll="scrollxy" @pullingUp="loadMore">
       <div id="content">
         <home-swiper :banners="banners"></home-swiper>
@@ -12,6 +12,10 @@
         <goods-list :goods-list="goodsList[currentType].list"></goods-list>
       </div>
     </scroll>
+    <div :class="{show: backtopshow}">
+      <div class="backtop" @click="backTop" ><span>^</span></div>
+    </div>
+    
   </div>
 </template>
 
@@ -46,7 +50,8 @@ export default {
       recommends: [],
       banners: [],
       img: [],
-      tabcontrolshow: true
+      tabcontrolshow: true,
+      backtopshow: true
     };
   },
   created() {
@@ -71,11 +76,20 @@ export default {
     });
   },
   methods: {
+    backTop(){
+      this.$refs.wrapper.scrollTo(0,1000);
+    },
     scrollxy(pos){
+      // -1000
       if(pos.y <= -298){
         this.tabcontrolshow = false;
       }else{
         this.tabcontrolshow = true;
+      }
+      if(pos.y <= -1000){
+        this.backtopshow = false;
+      }else{
+        this.backtopshow = true;
       }
     },
     tabClick(index) {
@@ -130,7 +144,7 @@ export default {
   right: 0;
   bottom: 49px;
 }
-.tcshow{
+.show{
   display: none;
 }
 .tc{
@@ -139,5 +153,24 @@ export default {
   left: 0;
   right: 0;
   z-index: 3;
+}
+.backtop{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #ff8198;
+  color: #fff;
+  z-index: 3;
+  bottom: 59px;
+  right: 10px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+.backtop span{
+  padding-top: 12px;
 }
 </style>

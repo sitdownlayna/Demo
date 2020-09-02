@@ -42,6 +42,9 @@ export default {
       // throttle(this.scroll.refresh())();
       // console.log("refres");
       this.scroll.refresh();
+    },
+    scrollTo(y,time) {
+      this.scroll.scrollTo(0,y,time);
     }
   }
 };

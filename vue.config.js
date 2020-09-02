@@ -10,6 +10,6 @@ module.exports = {
         'network': '@/network',
         'views': '@/views',
       }
-    }
+    },
   }
 }

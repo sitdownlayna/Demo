@@ -3,7 +3,13 @@
     <nav-bar class="nav-bar">
       <div slot="center">购物首页</div>
     </nav-bar>
-    <tab-control ref="tc1" class="tc" :class="{show:tabcontrolshow}" :titles="['流行','新款','精选']" @itemClick="tabClick"></tab-control>
+    <tab-control
+      ref="tc1"
+      class="tc"
+      :class="{show:tabcontrolshow}"
+      :titles="['流行','新款','精选']"
+      @itemClick="tabClick"
+    ></tab-control>
     <scroll class="scroll" ref="wrapper" @scroll="scrollxy" @pullingUp="loadMore">
       <div id="content">
         <home-swiper :banners="banners"></home-swiper>
@@ -13,9 +19,10 @@
       </div>
     </scroll>
     <div :class="{show: backtopshow}">
-      <div class="backtop" @click="backTop" ><span>^</span></div>
+      <div class="backtop" @click="backTop">
+        <span>^</span>
+      </div>
     </div>
-    
   </div>
 </template>
 
@@ -28,7 +35,7 @@ import FeatureView from "./childComps/FeatureView";
 import GoodsList from "./childComps/GoodList";
 import { getHomeMultidata, getHomeData } from "network/home";
 import BScroll from "better-scroll";
-import {throttle} from "@/common/tool"
+import { throttle } from "@/common/tool";
 export default {
   name: "Home",
   components: {
@@ -51,7 +58,9 @@ export default {
       banners: [],
       img: [],
       tabcontrolshow: true,
-      backtopshow: true
+      backtopshow: true,
+      x: 0,
+      y: 0
     };
   },
   created() {
@@ -75,22 +84,37 @@ export default {
       });
     });
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      console.log(vm.y);
+    })
+  },
+  // 组件间导航守卫
+  beforeRouteLeave(to, from, next) {
+    console.log(this.x + " " + this.y);
+    next();
+  },
   methods: {
-    backTop(){
-      this.$refs.wrapper.scrollTo(0,1000);
+    scroll(){
+      this.$refs.wrapper.scrollTo(this.x,this.y,0);
     },
-    scrollxy(pos){
+    backTop() {
+      this.$refs.wrapper.scrollTo(0,0, 1000);
+    },
+    scrollxy(pos) {
       // -1000
-      if(pos.y <= -298){
+      if (pos.y <= -298) {
         this.tabcontrolshow = false;
-      }else{
+      } else {
         this.tabcontrolshow = true;
       }
-      if(pos.y <= -1000){
+      if (pos.y <= -1000) {
         this.backtopshow = false;
-      }else{
+      } else {
         this.backtopshow = true;
       }
+      this.x = pos.x;
+      this.y = pos.y;
     },
     tabClick(index) {
       switch (index) {
@@ -120,9 +144,9 @@ export default {
         this.goodsList[type].page += 1;
       });
     },
-     loadMore() {
-		    this.getHomeProducts(this.currentType)
-      },
+    loadMore() {
+      this.getHomeProducts(this.currentType);
+    }
   }
 };
 </script>
@@ -144,17 +168,17 @@ export default {
   right: 0;
   bottom: 49px;
 }
-.show{
+.show {
   display: none;
 }
-.tc{
+.tc {
   position: absolute;
   top: 44px;
   left: 0;
   right: 0;
   z-index: 3;
 }
-.backtop{
+.backtop {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -170,7 +194,7 @@ export default {
   font-size: 40px;
   font-weight: bold;
 }
-.backtop span{
+.backtop span {
   padding-top: 12px;
 }
 </style>

@@ -43,8 +43,8 @@ export default {
       // console.log("refres");
       this.scroll.refresh();
     },
-    scrollTo(y,time) {
-      this.scroll.scrollTo(0,y,time);
+    scrollTo(x,y,time) {
+      this.scroll.scrollTo(x,y,time);
     }
   }
 };

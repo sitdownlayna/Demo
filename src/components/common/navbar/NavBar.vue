@@ -19,6 +19,7 @@
     line-height: 44px;
     text-align: center;
     z-index: 2;
+    display: flex
   }
 
   .nav-left {

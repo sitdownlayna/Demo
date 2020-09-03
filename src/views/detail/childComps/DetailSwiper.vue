@@ -1,10 +1,7 @@
 <template>
-  <swiper>
-    <swiper-item>
-      <img src="./Snipaste_2020-09-02_14-51-27.png" alt />
-    </swiper-item>
-    <swiper-item>
-      <img src="./vue双向绑定.png" alt />
+  <swiper v-if="images.length">
+    <swiper-item class="item" v-for="(item, index) in images" :key="index">
+      <img :src="item" alt="">
     </swiper-item>
   </swiper>
 </template>
@@ -19,7 +16,15 @@ export default {
   },
   methods: {
     
-  }
+  },
+  props: {
+		  images: {
+		    type: Array,
+        default() {
+		      return []
+        }
+      }
+    }
 };
 </script>
 

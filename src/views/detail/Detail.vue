@@ -3,7 +3,7 @@
     <detail-nav-bar class="navbar"></detail-nav-bar>
     <scroll class="scroll">
       <div class="content">
-        <detail-swiper></detail-swiper>
+        <detail-swiper class="detailswiper" :images="topImages"></detail-swiper>
         <detail-head-info :goods="goods"></detail-head-info>
         <ul>
           <li>a</li>
@@ -109,6 +109,7 @@
         </ul>
       </div>
     </scroll>
+    <detail-tabbar></detail-tabbar>
   </div>
 </template>
 
@@ -117,6 +118,7 @@ import DetailNavBar from "./childComps/DetailNavBar";
 import Scroll from "common/scroll/Scroll"
 import DetailSwiper from "./childComps/DetailSwiper"
 import DetailHeadInfo from "./childComps/DetailHeadInfo"
+import DetailTabbar from "./childComps/DetailTabbar"
 import {
   getDetail,
   getRecommend,
@@ -145,7 +147,8 @@ export default {
     DetailNavBar,
     Scroll,
     DetailSwiper,
-    DetailHeadInfo
+    DetailHeadInfo,
+    DetailTabbar
   },
   created() {
     this.getDetailData();
@@ -207,5 +210,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 49px;
+}
+.detailswiper{
+  height: 300px;
 }
 </style>

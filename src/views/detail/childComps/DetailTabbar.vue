@@ -1,0 +1,28 @@
+<template>
+  <div class="tabbar">
+    <div class="collect">收藏</div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: '',
+    components: {},
+  };
+</script>
+
+<style scoped>
+.tabbar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  height: 49px;
+}
+.collect{
+  background-color: #ff5777;
+  height: 100%;
+  color: white;
+}
+</style>

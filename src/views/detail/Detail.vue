@@ -5,6 +5,7 @@
       <div class="content">
         <detail-swiper class="detailswiper" :images="topImages"></detail-swiper>
         <detail-head-info :goods="goods"></detail-head-info>
+        <detail-shop-info :shop="shop"></detail-shop-info>
         <ul>
           <li>a</li>
           <li>a</li>
@@ -116,6 +117,7 @@
 <script>
 import DetailNavBar from "./childComps/DetailNavBar";
 import Scroll from "common/scroll/Scroll"
+import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailSwiper from "./childComps/DetailSwiper"
 import DetailHeadInfo from "./childComps/DetailHeadInfo"
 import DetailTabbar from "./childComps/DetailTabbar"
@@ -148,7 +150,8 @@ export default {
     Scroll,
     DetailSwiper,
     DetailHeadInfo,
-    DetailTabbar
+    DetailTabbar,
+    DetailShopInfo
   },
   created() {
     this.getDetailData();

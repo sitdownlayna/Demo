@@ -109,7 +109,7 @@
         </ul>
       </div>
     </scroll>
-    <detail-tabbar></detail-tabbar>
+    <detail-tabbar @addToCart="addToCart"></detail-tabbar>
   </div>
 </template>
 
@@ -155,7 +155,18 @@ export default {
     this.getRecommend();
   },
   methods: {
-    
+    addToCart() {
+        // 1.创建对象
+        const obj = {}
+        // 2.对象信息
+        obj.iid = this.iid;
+        obj.imgURL = this.topImages[0]
+        obj.title = this.goods.title
+        obj.desc = this.goods.desc;
+        obj.newPrice = this.goods.nowPrice;
+        // 3.添加到Store中
+        this.$store.commit('addCart', obj)  
+      },
     getDetailData() {
       const iid = this.$route.query.id;
       this.id = iid;

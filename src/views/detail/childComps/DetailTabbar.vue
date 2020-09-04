@@ -1,13 +1,17 @@
 <template>
   <div class="tabbar">
-    <div class="collect">收藏</div>
+    <div class="collect" @click="addToCart">收藏</div>
   </div>
 </template>
 
 <script>
   export default {
-    name: '',
-    components: {},
+    name: 'DetailTabbar',
+     methods: {
+      addToCart() {
+        this.$emit('addToCart')
+      }
+    }
   };
 </script>
 
